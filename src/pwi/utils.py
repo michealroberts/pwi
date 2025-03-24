@@ -5,7 +5,8 @@
 
 # **************************************************************************************
 
-from typing import Optional
+from math import inf
+from typing import Any, Optional
 
 # **************************************************************************************
 
@@ -23,6 +24,16 @@ def is_hexadecimal(value: Optional[str]) -> bool:
         return True
     except ValueError:
         return False
+
+
+# **************************************************************************************
+
+
+def parse_float_safely(value: Any, default: float = inf) -> float:
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return default
 
 
 # **************************************************************************************
