@@ -1,4 +1,4 @@
-name: astral-uv-python-package-template/test
+name: pwi/test
 
 on:
   push:

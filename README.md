@@ -1,2 +1,2 @@
-# astral-uv-python-package-template
+# pwi
 A hypermodern python package starter template with astral uv ruff and mypy

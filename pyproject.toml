@@ -1,7 +1,7 @@
 [project]
-name = "astral-uv-python-package-template"
+name = "pwi"
 version = "0.1.0"
-description = "Add your description here"
+description = "Modern, type-safe, zero-dependency python library for controlling Planewave devices"
 readme = "README.md"
 authors = [{ name = "michealroberts", email = "michael@observerly.com" }]
 requires-python = ">=3.13"
@@ -13,7 +13,6 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "astropy>=7.0.1",
     "mypy>=1.15.0",
     "pre-commit>=4.1.0",
     "pytest>=8.3.4",
@@ -24,4 +23,4 @@ dev = [
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]
-asyncio_default_fixture_loop_scope = ["session"]
+asyncio_default_fixture_loop_scope = "session"

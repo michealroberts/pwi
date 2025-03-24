@@ -1,6 +1,6 @@
 # **************************************************************************************
 
-# @package        astral-uv-python-package-template
+# @package        pwi
 # @license        MIT License Copyright (c) 2025 Michael J. Roberts
 
 # **************************************************************************************
@@ -8,7 +8,7 @@
 import unittest
 from typing import Tuple
 
-from astral_uv_python_package_template import __license__, __version__
+from pwi import __license__, __version__
 
 # **************************************************************************************
 

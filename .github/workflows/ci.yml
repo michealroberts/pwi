@@ -1,4 +1,4 @@
-name: astral-uv-python-package-template/ci
+name: pwi/ci
 
 on:
   push:
@@ -49,7 +49,7 @@ jobs:
 
       - name: Static Analysis w/mypy
         run: |
-          uv run mypy ./src/astral_uv_python_package_template --config mypy.ini
+          uv run mypy ./src/pwi --config mypy.ini
 
       - name: Build w/Hatch Build Backend 🔧
         run: |
