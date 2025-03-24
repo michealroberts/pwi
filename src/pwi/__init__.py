@@ -10,6 +10,7 @@ from .base import (
     BaseDeviceParameters,
     BaseDeviceState,
 )
+from .site import PlanewaveDeviceInterfaceSite
 
 # **************************************************************************************
 
@@ -27,6 +28,7 @@ __all__: list[str] = [
     "BaseDeviceInterface",
     "BaseDeviceParameters",
     "BaseDeviceState",
+    "PlanewaveDeviceInterfaceSite",
 ]
 
 # **************************************************************************************
