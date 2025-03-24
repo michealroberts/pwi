@@ -1,7 +1,7 @@
 # **************************************************************************************
 
-# @package        @lumispace/sunrise
-# @license        Copyright © 2025 Lumi.Space
+# @package        pwi
+# @license        MIT License Copyright (c) 2025 Michael J. Roberts
 
 # **************************************************************************************
 
