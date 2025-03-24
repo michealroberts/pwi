@@ -1,4 +1,4 @@
-name: astral-uv-python-package-template/publish
+name: pwi/publish
 
 on:
   release:
