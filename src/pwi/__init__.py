@@ -11,6 +11,7 @@ from .base import (
     BaseDeviceState,
 )
 from .site import PlanewaveDeviceInterfaceSite
+from .status import PlanewaveDeviceInterfaceStatus
 
 # **************************************************************************************
 
@@ -29,6 +30,7 @@ __all__: list[str] = [
     "BaseDeviceParameters",
     "BaseDeviceState",
     "PlanewaveDeviceInterfaceSite",
+    "PlanewaveDeviceInterfaceStatus",
 ]
 
 # **************************************************************************************
