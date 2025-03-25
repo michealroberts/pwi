@@ -24,3 +24,17 @@ class BaseMountAlignmentMode(Enum):
 
 
 # **************************************************************************************
+
+
+class BaseMountTrackingMode(Enum):
+    """
+    Enumeration of possible mount tracking modes.
+    """
+
+    SIDEREAL = "sidereal"
+    SOLAR = "solar"
+    LUNAR = "lunar"
+    CUSTOM = "custom"
+
+
+# **************************************************************************************
