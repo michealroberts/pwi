@@ -1,6 +1,6 @@
 [project]
 name = "pwi"
-version = "0.1.0"
+version = "0.2.0"
 description = "Modern, type-safe, zero-dependency python library for controlling Planewave devices"
 authors = [{ name = "michealroberts", email = "michael@observerly.com" }]
 keywords = [
