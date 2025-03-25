@@ -21,6 +21,10 @@ from .base_mount import (
     BaseMountTrackingState,
 )
 from .client import PlanewaveHTTPXClient
+from .mount import (
+    PlanewaveMountDeviceInterface,
+    PlanewaveMountDeviceParameters,
+)
 from .site import PlanewaveDeviceInterfaceSite
 from .status import PlanewaveDeviceInterfaceStatus
 
@@ -51,6 +55,8 @@ __all__: list[str] = [
     "PlanewaveDeviceInterfaceSite",
     "PlanewaveDeviceInterfaceStatus",
     "PlanewaveHTTPXClient",
+    "PlanewaveMountDeviceInterface",
+    "PlanewaveMountDeviceParameters",
 ]
 
 # **************************************************************************************
