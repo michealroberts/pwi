@@ -5,6 +5,7 @@
 
 # **************************************************************************************
 
+from .axis import PlanewaveDeviceInterfaceAxis
 from .base import (
     BaseDeviceInterface,
     BaseDeviceParameters,
@@ -29,6 +30,7 @@ __all__: list[str] = [
     "BaseDeviceInterface",
     "BaseDeviceParameters",
     "BaseDeviceState",
+    "PlanewaveDeviceInterfaceAxis",
     "PlanewaveDeviceInterfaceSite",
     "PlanewaveDeviceInterfaceStatus",
 ]
