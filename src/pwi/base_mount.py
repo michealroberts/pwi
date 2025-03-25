@@ -38,3 +38,16 @@ class BaseMountTrackingMode(Enum):
 
 
 # **************************************************************************************
+
+
+class BaseMountSlewingState(Enum):
+    """
+    Enumeration of possible mount slewing states.
+    """
+
+    IDLE = "idle"
+    SLEWING = "slewing"
+    SETTLING = "settling"
+
+
+# **************************************************************************************
