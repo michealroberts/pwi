@@ -2,10 +2,34 @@
 name = "pwi"
 version = "0.1.0"
 description = "Modern, type-safe, zero-dependency python library for controlling Planewave devices"
-readme = "README.md"
 authors = [{ name = "michealroberts", email = "michael@observerly.com" }]
+keywords = [
+    "astronomy",
+    "astrophotography",
+    "pwi4",
+    "planewave",
+    "telescope",
+    "mount",
+    "rotator",
+    "focuser",
+    "observatory",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.13",
+]
+readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.13"
 dependencies = ["celerity>=0.27.0", "httpx>=0.28.1", "pydantic>=2.10.6"]
+
+[project.urls]
+Source = "https://github.com/michealroberts/pwi"
+Issues = "https://github.com/michealroberts/pwi/issues"
+PullRequests = "https://github.com/michealroberts/pwi/pulls"
+Discussions = "https://github.com/michealroberts/pwi/discussions"
 
 [build-system]
 requires = ["hatchling"]
