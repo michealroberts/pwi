@@ -5,10 +5,7 @@ description = "Modern, type-safe, zero-dependency python library for controlling
 readme = "README.md"
 authors = [{ name = "michealroberts", email = "michael@observerly.com" }]
 requires-python = ">=3.13"
-dependencies = [
-    "celerity>=0.27.0",
-    "pydantic>=2.10.6",
-]
+dependencies = ["celerity>=0.27.0", "httpx>=0.28.1", "pydantic>=2.10.6"]
 
 [build-system]
 requires = ["hatchling"]
