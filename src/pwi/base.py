@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import List, Optional, Tuple, TypedDict
 
-from pwi.utils import is_hexadecimal
+from .utils import is_hexadecimal
 
 # **************************************************************************************
 
