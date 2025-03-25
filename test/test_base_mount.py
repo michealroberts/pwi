@@ -100,7 +100,7 @@ class DummyMountDevice(BaseMountDeviceInterface):
     ) -> bool:
         return True
 
-    async def slew_to_topocentric_coordinates(
+    async def slew_to_topocentric_coordinate(
         self, topocentric: HorizontalCoordinate
     ) -> bool:
         return True
