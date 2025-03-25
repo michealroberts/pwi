@@ -33,15 +33,17 @@ class PlanewaveDeviceInterfaceStatus(BaseModel):
     # Is the mount currently tracking?
     is_tracking: bool = Field(False, alias="mount.is_tracking")
 
-    #
+    # The current J2000 Right Ascension:
     j2000_equatorial_coordinate: Optional[EquatorialCoordinate] = Field(
         None, alias="mount.j2000_equatorial_coordinate"
     )
 
+    # The current apparent Right Ascension:
     apparent_equatorial_coordinate: Optional[EquatorialCoordinate] = Field(
         None, alias="mount.apparent_equatorial_coordinate"
     )
 
+    # The target J2000 Right Ascension:
     target_j2000_equatorial_coordinate: Optional[EquatorialCoordinate] = Field(
         None,
         title="Target J2000 Equatorial Coordinate",
