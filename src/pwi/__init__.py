@@ -20,6 +20,9 @@ from .base_mount import (
     BaseMountTrackingMode,
     BaseMountTrackingState,
 )
+from .calibration import (
+    HorizontalCalibrationParameters,
+)
 from .client import PlaneWaveHTTPXClient
 from .mount import (
     PlaneWaveMountDeviceInterface,
@@ -51,6 +54,7 @@ __all__: list[str] = [
     "BaseMountSlewingState",
     "BaseMountTrackingMode",
     "BaseMountTrackingState",
+    "HorizontalCalibrationParameters",
     "PlaneWaveDeviceInterfaceAxis",
     "PlaneWaveDeviceInterfaceSite",
     "PlaneWaveDeviceInterfaceStatus",
