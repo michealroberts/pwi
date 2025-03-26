@@ -14,18 +14,18 @@ from celerity.coordinates import (
 
 from pwi import (
     BaseMountAlignmentMode,
-    PlanewaveHTTPXClient,
-    PlanewaveMountDeviceInterface,
-    PlanewaveMountDeviceParameters,
+    PlaneWaveHTTPXClient,
+    PlaneWaveMountDeviceInterface,
+    PlaneWaveMountDeviceParameters,
 )
 
 # **************************************************************************************
 
 
 async def main() -> None:
-    client = PlanewaveHTTPXClient(host="localhost", port=8220)
+    client = PlaneWaveHTTPXClient(host="localhost", port=8220)
 
-    params: PlanewaveMountDeviceParameters = PlanewaveMountDeviceParameters(
+    params: PlaneWaveMountDeviceParameters = PlaneWaveMountDeviceParameters(
         name="PlaneWave L350 Alt-Az Mount",
         description="Planewave Mount Interface (HTTP)",
         alignment=BaseMountAlignmentMode.ALT_AZ,
@@ -37,7 +37,7 @@ async def main() -> None:
         pid="",
     )
 
-    mount = PlanewaveMountDeviceInterface(
+    mount = PlaneWaveMountDeviceInterface(
         id=0,
         params=params,
         client=client,
