@@ -7,12 +7,12 @@
 
 import unittest
 
-from pwi.status import PlanewaveDeviceInterfaceStatus
+from pwi.status import PlaneWaveDeviceInterfaceStatus
 
 # **************************************************************************************
 
 
-class TestPlanewaveDeviceInterfaceStatus(unittest.TestCase):
+class TestPlaneWaveDeviceInterfaceStatus(unittest.TestCase):
     def test_planewave_status_parsing(self):
         raw_json = {
             "mount": {
@@ -34,7 +34,7 @@ class TestPlanewaveDeviceInterfaceStatus(unittest.TestCase):
             "focuser": {},
             "rotator": {},
         }
-        status = PlanewaveDeviceInterfaceStatus.model_validate(raw_json)
+        status = PlaneWaveDeviceInterfaceStatus.model_validate(raw_json)
 
         self.assertTrue(status.is_connected)
         self.assertFalse(status.is_slewing)
@@ -79,7 +79,7 @@ class TestPlanewaveDeviceInterfaceStatus(unittest.TestCase):
 
     def test_planewave_status_missing_keys(self):
         raw_json = {"mount": {}}
-        status = PlanewaveDeviceInterfaceStatus.model_validate(raw_json)
+        status = PlaneWaveDeviceInterfaceStatus.model_validate(raw_json)
 
         self.assertFalse(status.is_connected)
         self.assertFalse(status.is_slewing)

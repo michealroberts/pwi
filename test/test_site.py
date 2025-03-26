@@ -8,12 +8,12 @@
 import unittest
 from math import inf
 
-from pwi.site import PlanewaveDeviceInterfaceSite
+from pwi.site import PlaneWaveDeviceInterfaceSite
 
 # **************************************************************************************
 
 
-class TestPlanewaveDeviceInterfaceSite(unittest.TestCase):
+class TestPlaneWaveDeviceInterfaceSite(unittest.TestCase):
     def test_valid_input(self):
         raw_json = {
             "site": {
@@ -23,7 +23,7 @@ class TestPlanewaveDeviceInterfaceSite(unittest.TestCase):
                 "lmst_hours": 23.45,
             }
         }
-        status = PlanewaveDeviceInterfaceSite.model_validate(raw_json)
+        status = PlaneWaveDeviceInterfaceSite.model_validate(raw_json)
         self.assertAlmostEqual(status.latitude, 12.34, places=5)
         self.assertAlmostEqual(status.longitude, 56.78, places=5)
         self.assertAlmostEqual(status.elevation, 100.0, places=5)
@@ -38,7 +38,7 @@ class TestPlanewaveDeviceInterfaceSite(unittest.TestCase):
                 "lmst_hours": "23.45",
             }
         }
-        status = PlanewaveDeviceInterfaceSite.model_validate(raw_json)
+        status = PlaneWaveDeviceInterfaceSite.model_validate(raw_json)
         self.assertAlmostEqual(status.latitude, 12.34, places=5)
         self.assertAlmostEqual(status.longitude, 56.78, places=5)
         self.assertAlmostEqual(status.elevation, 100.0, places=5)
@@ -46,7 +46,7 @@ class TestPlanewaveDeviceInterfaceSite(unittest.TestCase):
 
     def test_missing_keys(self):
         raw_json = {"site": {}}
-        status = PlanewaveDeviceInterfaceSite.model_validate(raw_json)
+        status = PlaneWaveDeviceInterfaceSite.model_validate(raw_json)
         self.assertEqual(status.latitude, inf)
         self.assertEqual(status.longitude, inf)
         self.assertEqual(status.elevation, inf)
@@ -61,7 +61,7 @@ class TestPlanewaveDeviceInterfaceSite(unittest.TestCase):
                 "lmst_hours": "invalid",
             }
         }
-        status = PlanewaveDeviceInterfaceSite.model_validate(raw_json)
+        status = PlaneWaveDeviceInterfaceSite.model_validate(raw_json)
         self.assertEqual(status.latitude, inf)
         self.assertEqual(status.longitude, inf)
         self.assertEqual(status.elevation, inf)

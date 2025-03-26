@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 # **************************************************************************************
 
 
-class PlanewaveDeviceInterfaceAxis(BaseModel):
+class PlaneWaveDeviceInterfaceAxis(BaseModel):
     # Whether the axis is currently enabled:
     is_enabled: Optional[bool] = Field(None, alias="mount.axis.is_enabled")
 

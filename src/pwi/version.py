@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 # **************************************************************************************
 
 
-class PlanewaveDeviceInterfaceVersion(BaseModel):
+class PlaneWaveDeviceInterfaceVersion(BaseModel):
     version: Tuple[int, int, int] = Field((0, 0, 0), alias="pwi4.version")
 
     @model_validator(mode="before")

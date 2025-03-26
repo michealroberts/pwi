@@ -5,9 +5,7 @@
 
 # PlaneWave Interface
 
-Modern, type-safe, zero-dependency python library for controlling Planewave devices through the PWI4 HTTP interface.
-
-This library abstracts the HTTP interface of the PWI4 server, providing a simple, type-safe interface for controlling Planewave devices.
+Modern, type-safe, zero-dependency python library for controlling PlaneWave devices through the PWI4 HTTP interface.
 
 ## Installation
 
@@ -36,18 +34,18 @@ conda install pwi
 ```python
 from pwi import (
     BaseMountAlignmentMode,
-    PlanewaveHTTPXClient,
-    PlanewaveMountDeviceInterface,
-    PlanewaveMountDeviceParameters,
+    PlaneWaveHTTPXClient,
+    PlaneWaveMountDeviceInterface,
+    PlaneWaveMountDeviceParameters,
 )
 
-# Create a new Planewave HTTPX client:
-client = PlanewaveHTTPXClient(host="localhost", port=8220)
+# Create a new PlaneWave HTTPX client:
+client = PlaneWaveHTTPXClient(host="localhost", port=8220)
 
-# Define the parameters for the Planewave Mount device:
-params: PlanewaveMountDeviceParameters = PlanewaveMountDeviceParameters(
+# Define the parameters for the PlaneWave Mount device:
+params: PlaneWaveMountDeviceParameters = PlaneWaveMountDeviceParameters(
     name="PlaneWave L350 Alt-Az Mount",
-    description="Planewave Mount Interface (HTTP)",
+    description="PlaneWave Mount Interface (HTTP)",
     alignment=BaseMountAlignmentMode.ALT_AZ,
     latitude=33.87047,
     longitude=-118.24708,
@@ -57,8 +55,8 @@ params: PlanewaveMountDeviceParameters = PlanewaveMountDeviceParameters(
     pid="",  # Product ID
 )
 
-# Create a new Planewave Mount device interface:
-mount = PlanewaveMountDeviceInterface(
+# Create a new PlaneWave Mount device interface:
+mount = PlaneWaveMountDeviceInterface(
     id=0,
     params=params,
     client=client,
@@ -85,9 +83,9 @@ We have also provided further usage examples in the [examples](./examples) direc
 - [X] Integration testing with HIL testing (hardware-in-the-loop)
 - [X] Zero-external dependencies (no numpy, astropy etc for portability)
 - [X] Example API usage
-- [X] Fully supported Planewave Mount operations
-- [ ] Fully supported Planewave Focuser operations
-- [ ] Fully supported Planewave Rotator operations
+- [X] Fully supported PlaneWave Mount operations
+- [ ] Fully supported PlaneWave Focuser operations
+- [ ] Fully supported PlaneWave Rotator operations
 - [X] Fully seasoned recipes for usage with numpy, astropy et al.
 - [ ] ASCOM Alpaca APIs w/Fast API
 
@@ -95,7 +93,7 @@ We have also provided further usage examples in the [examples](./examples) direc
 
 ### Disclaimer
 
-This project is not affiliated with Planewave Instruments or observable.space in any way. It is a community-driven project. All trademarks and logos are the property of their respective owners. The PWI4 software is the property of Planewave Instruments.
+This project is not affiliated with PlaneWave Instruments or observable.space in any way. It is a community-driven project. All trademarks and logos are the property of their respective owners. The PWI4 software is the property of PlaneWave Instruments.
 
 ### License
 

@@ -17,7 +17,7 @@ from celerity.coordinates import (
 )
 from celerity.refraction import get_correction_to_horizontal_for_refraction
 
-from .axis import PlanewaveDeviceInterfaceAxis
+from .axis import PlaneWaveDeviceInterfaceAxis
 from .base import (
     BaseDeviceState,
 )
@@ -30,18 +30,18 @@ from .base_mount import (
     BaseMountTrackingMode,
     BaseMountTrackingState,
 )
-from .client import PlanewaveHTTPXClient
+from .client import PlaneWaveHTTPXClient
 from .response import (
     ResponsePlanTextParserToJSON as ResponseParser,
 )
-from .site import PlanewaveDeviceInterfaceSite
-from .status import PlanewaveDeviceInterfaceStatus
-from .version import PlanewaveDeviceInterfaceVersion
+from .site import PlaneWaveDeviceInterfaceSite
+from .status import PlaneWaveDeviceInterfaceStatus
+from .version import PlaneWaveDeviceInterfaceVersion
 
 # **************************************************************************************
 
 
-class PlanewaveMountDeviceParameters(BaseMountDeviceParameters):
+class PlaneWaveMountDeviceParameters(BaseMountDeviceParameters):
     name: str
     description: str
     alignment: Literal[BaseMountAlignmentMode.ALT_AZ, BaseMountAlignmentMode.EQUATORIAL]
@@ -50,11 +50,11 @@ class PlanewaveMountDeviceParameters(BaseMountDeviceParameters):
 # **************************************************************************************
 
 
-class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
+class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
     """
-    PlanewaveMountDeviceInterface is a concrete implementation of BaseMountDeviceInterface
-    for Planewave mounts. It provides a simple interface to control Planewave mounts
-    over HTTP using the Planewave HTTP API using the HTTPX library.
+    PlaneWaveMountDeviceInterface is a concrete implementation of BaseMountDeviceInterface
+    for PlaneWave mounts. It provides a simple interface to control PlaneWave mounts
+    over HTTP using the PlaneWave HTTP API using the HTTPX library.
     """
 
     _id: int = 0
@@ -139,24 +139,24 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
     def __init__(
         self,
         id: int,
-        params: PlanewaveMountDeviceParameters,
-        client: Optional[PlanewaveHTTPXClient],
+        params: PlaneWaveMountDeviceParameters,
+        client: Optional[PlaneWaveHTTPXClient],
     ) -> None:
         """
         Initialise the base mount interface.
 
         Args:
-            params (Optional[PlanewaveMountDeviceParameters]): An optional dictionary-like object
+            params (Optional[PlaneWaveMountDeviceParameters]): An optional dictionary-like object
                 containing device parameters such as vendor ID (vid), product ID (pid),
                 or device ID (did).
         """
         super().__init__(params)
-        # The name of the mount (default: "Planewave Mount"):
-        self._name = params.get("name", "Planewave Mount")
+        # The name of the mount (default: "PlaneWave Mount"):
+        self._name = params.get("name", "PlaneWave Mount")
 
-        # The description of the mount (default: "Planewave Mount Interface (HTTP)"):
+        # The description of the mount (default: "PlaneWave Mount Interface (HTTP)"):
         self._description = params.get(
-            "description", "Planewave Mount Interface (HTTP)"
+            "description", "PlaneWave Mount Interface (HTTP)"
         )
         # The alignment mode of the mount (default: ALT_AZ):
         self._alignment_mode = params.get("alignment", BaseMountAlignmentMode.ALT_AZ)
@@ -167,7 +167,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
         self._elevation = params.get("elevation", 0.0)
 
         if not client:
-            client = PlanewaveHTTPXClient(host="localhost", port=8220)
+            client = PlaneWaveHTTPXClient(host="localhost", port=8220)
 
         self._client = client._client
 
@@ -302,12 +302,12 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         self.state = BaseDeviceState.DISCONNECTED
 
-    def get_status(self) -> Optional[PlanewaveDeviceInterfaceStatus]:
+    def get_status(self) -> Optional[PlaneWaveDeviceInterfaceStatus]:
         """
         Get the current status of the device.
 
         Returns:
-            PlanewaveDeviceInterfaceStatus: The current status of the device.
+            PlaneWaveDeviceInterfaceStatus: The current status of the device.
 
         Raises:
             HTTPStatusError: If the status data is invalid or missing
@@ -321,14 +321,14 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        return PlanewaveDeviceInterfaceStatus.model_validate(data)
+        return PlaneWaveDeviceInterfaceStatus.model_validate(data)
 
-    def get_site(self) -> Optional[PlanewaveDeviceInterfaceSite]:
+    def get_site(self) -> Optional[PlaneWaveDeviceInterfaceSite]:
         """
         Get the site information for the device.
 
         Returns:
-            PlanewaveDeviceInterfaceSite: The site information
+            PlaneWaveDeviceInterfaceSite: The site information
 
         Raises:
             HTTPStatusError: If the site data is invalid or missing
@@ -342,7 +342,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        return PlanewaveDeviceInterfaceSite.model_validate(data)
+        return PlaneWaveDeviceInterfaceSite.model_validate(data)
 
     def is_connected(self) -> bool:
         """
@@ -423,7 +423,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        model = PlanewaveDeviceInterfaceVersion.model_validate(data)
+        model = PlaneWaveDeviceInterfaceVersion.model_validate(data)
 
         return model.version
 
@@ -484,7 +484,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         status = self.get_status()
 
-        mount = PlanewaveDeviceInterfaceStatus.model_validate(status)
+        mount = PlaneWaveDeviceInterfaceStatus.model_validate(status)
 
         if not mount.horizontal_coordinate:
             return False
@@ -566,7 +566,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         status = self.get_status()
 
-        mount = PlanewaveDeviceInterfaceStatus.model_validate(status)
+        mount = PlaneWaveDeviceInterfaceStatus.model_validate(status)
 
         if not mount.horizontal_coordinate:
             return False
@@ -798,7 +798,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
         status = self.get_status()
 
-        mount = PlanewaveDeviceInterfaceStatus.model_validate(status)
+        mount = PlaneWaveDeviceInterfaceStatus.model_validate(status)
 
         if not mount.horizontal_coordinate or not mount.apparent_equatorial_coordinate:
             return False
@@ -842,7 +842,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
 
     def get_axis(
         self, axis: Literal[0, 1] = 0
-    ) -> Optional[PlanewaveDeviceInterfaceAxis]:
+    ) -> Optional[PlaneWaveDeviceInterfaceAxis]:
         """
         Get the status of the specified axis of the mount.
 
@@ -850,7 +850,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
             axis (int): The axis to query (0 or 1).
 
         Returns:
-            PlanewaveDeviceInterfaceAxis: The status of the specified axis.
+            PlaneWaveDeviceInterfaceAxis: The status of the specified axis.
         """
         if self.state == BaseDeviceState.DISCONNECTED:
             return None
@@ -864,7 +864,7 @@ class PlanewaveMountDeviceInterface(BaseMountDeviceInterface):
         # Inject the axis number into data to help model validator know which axis to extract
         data["axis_number"] = axis
 
-        return PlanewaveDeviceInterfaceAxis.model_validate(data)
+        return PlaneWaveDeviceInterfaceAxis.model_validate(data)
 
     def enable_axis(self, axis: Literal[0, 1] = 0) -> None:
         """

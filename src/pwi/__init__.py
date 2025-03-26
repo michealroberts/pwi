@@ -5,7 +5,7 @@
 
 # **************************************************************************************
 
-from .axis import PlanewaveDeviceInterfaceAxis
+from .axis import PlaneWaveDeviceInterfaceAxis
 from .base import (
     BaseDeviceInterface,
     BaseDeviceParameters,
@@ -20,13 +20,13 @@ from .base_mount import (
     BaseMountTrackingMode,
     BaseMountTrackingState,
 )
-from .client import PlanewaveHTTPXClient
+from .client import PlaneWaveHTTPXClient
 from .mount import (
-    PlanewaveMountDeviceInterface,
-    PlanewaveMountDeviceParameters,
+    PlaneWaveMountDeviceInterface,
+    PlaneWaveMountDeviceParameters,
 )
-from .site import PlanewaveDeviceInterfaceSite
-from .status import PlanewaveDeviceInterfaceStatus
+from .site import PlaneWaveDeviceInterfaceSite
+from .status import PlaneWaveDeviceInterfaceStatus
 
 # **************************************************************************************
 
@@ -51,12 +51,12 @@ __all__: list[str] = [
     "BaseMountSlewingState",
     "BaseMountTrackingMode",
     "BaseMountTrackingState",
-    "PlanewaveDeviceInterfaceAxis",
-    "PlanewaveDeviceInterfaceSite",
-    "PlanewaveDeviceInterfaceStatus",
-    "PlanewaveHTTPXClient",
-    "PlanewaveMountDeviceInterface",
-    "PlanewaveMountDeviceParameters",
+    "PlaneWaveDeviceInterfaceAxis",
+    "PlaneWaveDeviceInterfaceSite",
+    "PlaneWaveDeviceInterfaceStatus",
+    "PlaneWaveHTTPXClient",
+    "PlaneWaveMountDeviceInterface",
+    "PlaneWaveMountDeviceParameters",
 ]
 
 # **************************************************************************************
