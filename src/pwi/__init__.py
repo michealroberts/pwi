@@ -22,6 +22,7 @@ from .base_mount import (
 )
 from .calibration import (
     HorizontalCalibrationParameters,
+    get_horizontal_calibration_coordinates,
 )
 from .client import PlaneWaveHTTPXClient
 from .mount import (
@@ -44,6 +45,7 @@ __license__ = "MIT"
 __all__: list[str] = [
     "__license__",
     "__version__",
+    "get_horizontal_calibration_coordinates",
     "BaseDeviceInterface",
     "BaseDeviceParameters",
     "BaseDeviceState",
