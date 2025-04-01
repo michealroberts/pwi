@@ -83,6 +83,10 @@ async def main() -> None:
             )
         )
 
+        offsets = mount.get_offsets()
+
+        print("[Offsets]:", offsets)
+
         while not mount.has_slewed_to_target():
             await asyncio.sleep(0.1)
 
