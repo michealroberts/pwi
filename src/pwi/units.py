@@ -20,3 +20,19 @@ def convert_arcminutes_to_degrees(arcminutes: float) -> float:
 
 
 # **************************************************************************************
+
+
+def convert_arcseconds_to_degrees(arcseconds: float) -> float:
+    """
+    Convert arcseconds to degrees.
+
+    Args:
+        arcseconds (float): The value in arcseconds.
+
+    Returns:
+        float: The value in degrees.
+    """
+    return arcseconds / 3600.0
+
+
+# **************************************************************************************
