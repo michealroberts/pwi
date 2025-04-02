@@ -5,6 +5,7 @@
 
 # **************************************************************************************
 
+from datetime import datetime
 from typing import Any, Optional
 
 from celerity.common import (
@@ -23,6 +24,14 @@ from .utils import parse_float_safely
 class PlaneWaveDeviceInterfaceStatus(BaseModel):
     # The current Julian Date as reported by the mount:
     JD: Optional[float] = Field(None, alias="mount.julian_date")
+
+    # The current datetime signature as reported by the mount:
+    utc: Optional[datetime] = Field(
+        None,
+        title="UTC",
+        description="The UTC time of the mount",
+        alias="mount.utc",
+    )
 
     # Is the mount currently connected?
     is_connected: bool = Field(False, alias="mount.is_connected")
@@ -69,6 +78,7 @@ class PlaneWaveDeviceInterfaceStatus(BaseModel):
 
         mount = data.get("mount", {})
 
+        data["mount.utc"] = mount.get("timestamp_utc")
         data["mount.julian_date"] = mount.get("julian_date")
         data["mount.is_slewing"] = mount.get("is_slewing")
         data["mount.is_connected"] = mount.get("is_connected")
@@ -128,6 +138,17 @@ class PlaneWaveDeviceInterfaceStatus(BaseModel):
             return None
 
         return parse_float_safely(value)
+
+    @field_validator("utc", mode="before")
+    @classmethod
+    def parse_utc(cls, value: Any) -> Optional[datetime]:
+        if value is None:
+            return None
+
+        try:
+            return datetime.fromisoformat(value)
+        except ValueError:
+            return None
 
     @field_validator("is_slewing", "is_connected", "is_tracking", mode="before")
     @classmethod
