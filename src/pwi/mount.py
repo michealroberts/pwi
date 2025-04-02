@@ -59,6 +59,13 @@ class EquatorialCoordinateAtTime(EquatorialCoordinate):
 # **************************************************************************************
 
 
+class HorizontalCoordinateAtTime(HorizontalCoordinate):
+    at: Optional[datetime]
+
+
+# **************************************************************************************
+
+
 class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
     """
     PlaneWaveMountDeviceInterface is a concrete implementation of BaseMountDeviceInterface
@@ -746,6 +753,32 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             raise RuntimeError("Horizontal coordinate not available")
 
         return status.horizontal_coordinate.get("az", inf)
+
+    def get_horizontal_coordinate(self) -> Optional[HorizontalCoordinateAtTime]:
+        """
+        Retrieve the current horizontal coordinate of the mount.
+
+        Returns:
+            HorizontalCoordinateAtTime: The current horizontal coordinate.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return None
+
+        status = self.get_status()
+
+        if not status:
+            raise RuntimeError("Status not available")
+
+        if not status.horizontal_coordinate:
+            raise RuntimeError("Horizontal coordinate not available")
+
+        return HorizontalCoordinateAtTime(
+            {
+                "alt": status.horizontal_coordinate.get("alt", inf),
+                "az": status.horizontal_coordinate.get("az", inf),
+                "at": status.utc,
+            }
+        )
 
     def get_topocentric_coordinate(self) -> Optional[HorizontalCoordinate]:
         """
