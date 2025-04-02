@@ -780,7 +780,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             }
         )
 
-    def get_topocentric_coordinate(self) -> Optional[HorizontalCoordinate]:
+    def get_topocentric_coordinate(self) -> Optional[HorizontalCoordinateAtTime]:
         """
         Retrieve the current topocentric coordinate of the mount.
 
@@ -802,10 +802,11 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             raise RuntimeError("Horizontal coordinate not available")
 
         # Assume the HorizontalCoordinate has keys "alt" and "az" (in degrees):
-        return HorizontalCoordinate(
+        return HorizontalCoordinateAtTime(
             {
                 "alt": status.horizontal_coordinate.get("alt", inf),
                 "az": status.horizontal_coordinate.get("az", inf),
+                "at": status.utc,
             }
         )
 
