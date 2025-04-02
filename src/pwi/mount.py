@@ -7,6 +7,7 @@
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
+from datetime import datetime
 from math import inf
 from time import sleep
 from typing import Dict, List, Literal, Optional, Tuple
@@ -46,6 +47,13 @@ class PlaneWaveMountDeviceParameters(BaseMountDeviceParameters):
     name: str
     description: str
     alignment: Literal[BaseMountAlignmentMode.ALT_AZ, BaseMountAlignmentMode.EQUATORIAL]
+
+
+# **************************************************************************************
+
+
+class EquatorialCoordinateAtTime(EquatorialCoordinate):
+    at: Optional[datetime]
 
 
 # **************************************************************************************
@@ -657,6 +665,46 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             status.j2000_equatorial_coordinate.get("dec", inf)
             if epoch == "J2000"
             else status.apparent_equatorial_coordinate.get("dec", inf)
+        )
+
+    def get_equatorial_coordinate(
+        self, epoch: Literal["J2000", "apparent"] = "J2000"
+    ) -> Optional[EquatorialCoordinateAtTime]:
+        """
+        Retrieve the current equatorial coordinate of the mount.
+
+        Args:
+            epoch: The epoch for the equatorial coordinate ("J2000" or "apparent").
+
+        Returns:
+            EquatorialCoordinateAtTime: The current equatorial coordinate.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return None
+
+        status = self.get_status()
+
+        if not status:
+            raise RuntimeError("Status not available")
+
+        if not status.j2000_equatorial_coordinate:
+            raise RuntimeError("J2000 equatorial coordinate not available")
+
+        if not status.apparent_equatorial_coordinate:
+            raise RuntimeError("Apparent equatorial coordinate not available")
+
+        equatorial: EquatorialCoordinate = (
+            status.j2000_equatorial_coordinate
+            if epoch == "J2000"
+            else status.apparent_equatorial_coordinate
+        )
+
+        return EquatorialCoordinateAtTime(
+            {
+                "ra": equatorial.get("ra", inf),
+                "dec": equatorial.get("dec", inf),
+                "at": status.utc,
+            }
         )
 
     def get_altitude(self) -> float:
