@@ -7,10 +7,10 @@
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
-from datetime import datetime
+from datetime import datetime, timezone
 from math import inf
 from time import sleep
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple, TypedDict
 
 from celerity.coordinates import (
     EquatorialCoordinate,
@@ -38,6 +38,7 @@ from .response import (
 )
 from .site import PlaneWaveDeviceInterfaceSite
 from .status import PlaneWaveDeviceInterfaceStatus
+from .units import convert_arcseconds_to_degrees
 from .version import PlaneWaveDeviceInterfaceVersion
 
 # **************************************************************************************
@@ -61,6 +62,66 @@ class EquatorialCoordinateAtTime(EquatorialCoordinate):
 
 class HorizontalCoordinateAtTime(HorizontalCoordinate):
     at: Optional[datetime]
+
+
+# **************************************************************************************
+
+
+class PlaneWaveMountDeviceAxisTelemetry(TypedDict):
+    # The root mean square (RMS) error (in arcseconds):
+    rms_error: Optional[float]
+    # The distance to the target (in degrees):
+    distance_to_target: Optional[float]
+    # The servo error (in arcseconds):
+    servo_error: Optional[float]
+    # The minimum mechanical position (in degrees):
+    minimum_mechanical_position: Optional[float]
+    # The maximum mechanical position (in degrees):
+    maximum_mechanical_position: Optional[float]
+    # The target mechanical position (in degrees):
+    target_mechanical_position: Optional[float]
+    # The current mechanical position (in degrees):
+    mechanical_position: Optional[float]
+    # The timestamp of the last mechanical position update:
+    last_mechanical_position_datetime: Optional[datetime]
+    # The maximum velocity (in degrees per second):
+    maximum_velocity: Optional[float]
+    # The setpoint velocity (in degrees per second):
+    setpoint_velocity: Optional[float]
+    # The measured velocity (in degrees per second):
+    measured_velocity: Optional[float]
+    # The acceleration (in degrees per second squared):
+    acceleration: Optional[float]
+    # The measured current (in amps):
+    measured_current_amps: Optional[float]
+
+
+# **************************************************************************************
+
+
+class PlaneWaveMountDeviceAzimuthalTelemetry(PlaneWaveMountDeviceAxisTelemetry):
+    ra: float
+    az: float
+
+
+# **************************************************************************************
+
+
+class PlaneWaveMountDevicePolarTelemetry(PlaneWaveMountDeviceAxisTelemetry):
+    dec: float
+    alt: float
+
+
+# **************************************************************************************
+
+
+class PlaneWaveMountDeviceTelemetry(TypedDict):
+    # The UTC time of the telemetry data:
+    utc: datetime
+    # The azimuth axis (e.g., azimuth or RA) telemetry:
+    azimuth: PlaneWaveMountDeviceAzimuthalTelemetry
+    # The polar axis (e.g., altitude or declination) telemetry:
+    polar: PlaneWaveMountDevicePolarTelemetry
 
 
 # **************************************************************************************
@@ -807,6 +868,112 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
                 "alt": status.horizontal_coordinate.get("alt", inf),
                 "az": status.horizontal_coordinate.get("az", inf),
                 "at": status.utc,
+            }
+        )
+
+    def get_telemetry(
+        self,
+    ) -> Optional[PlaneWaveMountDeviceTelemetry]:
+        """
+        Retrieve the positional telemetry of the mount, such as current pointing position,
+        tracking rate, axes error, and other relevant information.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return None
+
+        response = self._client.get(url="/status")
+
+        response.raise_for_status()
+
+        data = ResponseParser(response.read()).parse()
+
+        status = PlaneWaveDeviceInterfaceStatus.model_validate(data)
+
+        axis0 = data.copy()
+
+        # Inject the axis number into data to help model validator know which axis to extract:
+        axis0["axis_number"] = 0
+
+        axis_azimuthal = PlaneWaveDeviceInterfaceAxis.model_validate(axis0)
+
+        axis1 = data.copy()
+
+        # Inject the axis number into data to help model validator know which axis to extract:
+        axis1["axis_number"] = 1
+
+        axis_polar = PlaneWaveDeviceInterfaceAxis.model_validate(axis1)
+
+        now: datetime = status.utc if status.utc else datetime.now(tz=timezone.utc)
+
+        equatorial: EquatorialCoordinate = EquatorialCoordinate(
+            {
+                "ra": status.j2000_equatorial_coordinate.get("ra", inf)
+                if status.j2000_equatorial_coordinate
+                else inf,
+                "dec": status.j2000_equatorial_coordinate.get("dec", inf)
+                if status.j2000_equatorial_coordinate
+                else inf,
+            }
+        )
+
+        horizontal: HorizontalCoordinate = HorizontalCoordinate(
+            {
+                "alt": status.horizontal_coordinate.get("alt", inf)
+                if status.horizontal_coordinate
+                else inf,
+                "az": status.horizontal_coordinate.get("az", inf)
+                if status.horizontal_coordinate
+                else inf,
+            }
+        )
+
+        azimuth_axis_telemetry = PlaneWaveMountDeviceAzimuthalTelemetry(
+            ra=equatorial["ra"],
+            az=horizontal["az"],
+            rms_error=convert_arcseconds_to_degrees(axis_azimuthal.rms_error or 0.0),
+            distance_to_target=convert_arcseconds_to_degrees(
+                axis_azimuthal.distance_to_target or inf
+            ),
+            servo_error=convert_arcseconds_to_degrees(
+                axis_azimuthal.servo_error or 0.0
+            ),
+            minimum_mechanical_position=axis_azimuthal.minimum_mechanical_position,
+            maximum_mechanical_position=axis_azimuthal.maximum_mechanical_position,
+            target_mechanical_position=axis_azimuthal.target_mechanical_position,
+            mechanical_position=axis_azimuthal.mechanical_position,
+            last_mechanical_position_datetime=axis_azimuthal.last_mechanical_position_datetime,
+            maximum_velocity=axis_azimuthal.maximum_velocity,
+            setpoint_velocity=axis_azimuthal.setpoint_velocity,
+            measured_velocity=axis_azimuthal.measured_velocity,
+            acceleration=axis_azimuthal.acceleration,
+            measured_current_amps=axis_azimuthal.measured_current_amps,
+        )
+
+        polar_axis_telemetry = PlaneWaveMountDevicePolarTelemetry(
+            dec=equatorial["dec"],
+            alt=horizontal["alt"],
+            rms_error=convert_arcseconds_to_degrees(axis_polar.rms_error or 0.0),
+            distance_to_target=convert_arcseconds_to_degrees(
+                axis_polar.distance_to_target or inf
+            ),
+            servo_error=convert_arcseconds_to_degrees(axis_polar.servo_error or 0.0),
+            minimum_mechanical_position=axis_polar.minimum_mechanical_position,
+            maximum_mechanical_position=axis_polar.maximum_mechanical_position,
+            target_mechanical_position=axis_polar.target_mechanical_position,
+            mechanical_position=axis_polar.mechanical_position,
+            last_mechanical_position_datetime=axis_polar.last_mechanical_position_datetime,
+            maximum_velocity=axis_polar.maximum_velocity,
+            setpoint_velocity=axis_polar.setpoint_velocity,
+            measured_velocity=axis_polar.measured_velocity,
+            acceleration=axis_polar.acceleration,
+            measured_current_amps=axis_polar.measured_current_amps,
+        )
+
+        return PlaneWaveMountDeviceTelemetry(
+            {
+                "utc": now,
+                "azimuth": azimuth_axis_telemetry,
+                "polar": polar_axis_telemetry,
             }
         )
 

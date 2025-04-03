@@ -28,6 +28,7 @@ from .client import PlaneWaveHTTPXClient
 from .mount import (
     PlaneWaveMountDeviceInterface,
     PlaneWaveMountDeviceParameters,
+    PlaneWaveMountDeviceTelemetry,
 )
 from .offsets import PlaneWaveDeviceInterfaceOffsets
 from .site import PlaneWaveDeviceInterfaceSite
@@ -65,6 +66,7 @@ __all__: list[str] = [
     "PlaneWaveHTTPXClient",
     "PlaneWaveMountDeviceInterface",
     "PlaneWaveMountDeviceParameters",
+    "PlaneWaveMountDeviceTelemetry",
 ]
 
 # **************************************************************************************
