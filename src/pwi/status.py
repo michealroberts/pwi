@@ -21,7 +21,7 @@ from .utils import parse_float_safely
 # **************************************************************************************
 
 
-class PlaneWaveDeviceInterfaceStatus(BaseModel):
+class PlaneWaveMountDeviceInterfaceStatus(BaseModel):
     # The current Julian Date as reported by the mount:
     JD: Optional[float] = Field(None, alias="mount.julian_date")
 

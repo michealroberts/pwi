@@ -37,7 +37,7 @@ from .response import (
     ResponsePlanTextParserToJSON as ResponseParser,
 )
 from .site import PlaneWaveDeviceInterfaceSite
-from .status import PlaneWaveDeviceInterfaceStatus
+from .status import PlaneWaveMountDeviceInterfaceStatus
 from .units import convert_arcseconds_to_degrees
 from .version import PlaneWaveDeviceInterfaceVersion
 
@@ -379,12 +379,12 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         self.state = BaseDeviceState.DISCONNECTED
 
-    def get_status(self) -> Optional[PlaneWaveDeviceInterfaceStatus]:
+    def get_status(self) -> Optional[PlaneWaveMountDeviceInterfaceStatus]:
         """
         Get the current status of the device.
 
         Returns:
-            PlaneWaveDeviceInterfaceStatus: The current status of the device.
+            PlaneWaveMountDeviceInterfaceStatus: The current status of the device.
 
         Raises:
             HTTPStatusError: If the status data is invalid or missing
@@ -398,7 +398,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        return PlaneWaveDeviceInterfaceStatus.model_validate(data)
+        return PlaneWaveMountDeviceInterfaceStatus.model_validate(data)
 
     def get_site(self) -> Optional[PlaneWaveDeviceInterfaceSite]:
         """
@@ -561,7 +561,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         status = self.get_status()
 
-        mount = PlaneWaveDeviceInterfaceStatus.model_validate(status)
+        mount = PlaneWaveMountDeviceInterfaceStatus.model_validate(status)
 
         if not mount.horizontal_coordinate:
             return False
@@ -643,7 +643,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         status = self.get_status()
 
-        mount = PlaneWaveDeviceInterfaceStatus.model_validate(status)
+        mount = PlaneWaveMountDeviceInterfaceStatus.model_validate(status)
 
         if not mount.horizontal_coordinate:
             return False
@@ -887,7 +887,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        status = PlaneWaveDeviceInterfaceStatus.model_validate(data)
+        status = PlaneWaveMountDeviceInterfaceStatus.model_validate(data)
 
         axis0 = data.copy()
 
@@ -1048,7 +1048,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         status = self.get_status()
 
-        mount = PlaneWaveDeviceInterfaceStatus.model_validate(status)
+        mount = PlaneWaveMountDeviceInterfaceStatus.model_validate(status)
 
         if not mount.horizontal_coordinate or not mount.apparent_equatorial_coordinate:
             return False
