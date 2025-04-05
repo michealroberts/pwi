@@ -43,7 +43,7 @@ class OffsetValue(BaseModel):
 # **************************************************************************************
 
 
-class PlaneWaveDeviceInterfaceOffsets(BaseModel):
+class PlaneWaveMountDeviceInterfaceOffsets(BaseModel):
     ra: Optional[OffsetValue] = Field(
         None,
         alias="mount.offsets.ra_arcsec",
