@@ -7,7 +7,7 @@
 
 import unittest
 
-from pwi import PlaneWaveDeviceInterfaceOffsets
+from pwi import PlaneWaveMountDeviceInterfaceOffsets
 from pwi.units import (
     convert_arcseconds_to_degrees,  # Used here to compute expected values
 )
@@ -15,7 +15,7 @@ from pwi.units import (
 # **************************************************************************************
 
 
-class TestPlaneWaveDeviceInterfaceOffsets(unittest.TestCase):
+class TestPlaneWaveMountDeviceInterfaceOffsets(unittest.TestCase):
     def test_offset_parsing(self):
         raw_json = {
             "mount": {
@@ -54,7 +54,7 @@ class TestPlaneWaveDeviceInterfaceOffsets(unittest.TestCase):
             },
         }
 
-        offsets = PlaneWaveDeviceInterfaceOffsets.model_validate(raw_json)
+        offsets = PlaneWaveMountDeviceInterfaceOffsets.model_validate(raw_json)
 
         self.assertIsNotNone(offsets.ra)
         expected_ra_offset = convert_arcseconds_to_degrees(0.5)
@@ -106,7 +106,7 @@ class TestPlaneWaveDeviceInterfaceOffsets(unittest.TestCase):
 
     def test_offset_missing_keys(self):
         raw_json = {"mount": {"offsets": {}}}
-        offsets = PlaneWaveDeviceInterfaceOffsets.model_validate(raw_json)
+        offsets = PlaneWaveMountDeviceInterfaceOffsets.model_validate(raw_json)
         self.assertIsNone(offsets.ra)
         self.assertIsNone(offsets.dec)
         self.assertIsNone(offsets.axis0)

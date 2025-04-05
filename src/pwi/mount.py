@@ -32,7 +32,7 @@ from .base_mount import (
     BaseMountTrackingState,
 )
 from .client import PlaneWaveHTTPXClient
-from .offsets import PlaneWaveDeviceInterfaceOffsets
+from .offsets import PlaneWaveMountDeviceInterfaceOffsets
 from .response import (
     ResponsePlanTextParserToJSON as ResponseParser,
 )
@@ -1144,12 +1144,12 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         response.raise_for_status()
 
-    def get_offsets(self) -> Optional[PlaneWaveDeviceInterfaceOffsets]:
+    def get_offsets(self) -> Optional[PlaneWaveMountDeviceInterfaceOffsets]:
         """
         Retrieve the current offsets for the mount.
 
         Returns:
-            PlaneWaveDeviceInterfaceOffsets: The current offsets for the mount.
+            PlaneWaveMountDeviceInterfaceOffsets: The current offsets for the mount.
         """
         if self.state == BaseDeviceState.DISCONNECTED:
             return None
@@ -1160,7 +1160,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        return PlaneWaveDeviceInterfaceOffsets.model_validate(data)
+        return PlaneWaveMountDeviceInterfaceOffsets.model_validate(data)
 
     async def slew_to_equatorial_coordinate(
         self,
