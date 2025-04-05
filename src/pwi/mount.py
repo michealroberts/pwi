@@ -18,7 +18,7 @@ from celerity.coordinates import (
 )
 from celerity.refraction import get_correction_to_horizontal_for_refraction
 
-from .axis import PlaneWaveDeviceInterfaceAxis
+from .axis import PlaneWaveMountDeviceInterfaceAxis
 from .base import (
     BaseDeviceState,
 )
@@ -894,14 +894,14 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         # Inject the axis number into data to help model validator know which axis to extract:
         axis0["axis_number"] = 0
 
-        axis_azimuthal = PlaneWaveDeviceInterfaceAxis.model_validate(axis0)
+        axis_azimuthal = PlaneWaveMountDeviceInterfaceAxis.model_validate(axis0)
 
         axis1 = data.copy()
 
         # Inject the axis number into data to help model validator know which axis to extract:
         axis1["axis_number"] = 1
 
-        axis_polar = PlaneWaveDeviceInterfaceAxis.model_validate(axis1)
+        axis_polar = PlaneWaveMountDeviceInterfaceAxis.model_validate(axis1)
 
         now: datetime = status.utc if status.utc else datetime.now(tz=timezone.utc)
 
@@ -1092,7 +1092,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
     def get_axis(
         self, axis: Literal[0, 1] = 0
-    ) -> Optional[PlaneWaveDeviceInterfaceAxis]:
+    ) -> Optional[PlaneWaveMountDeviceInterfaceAxis]:
         """
         Get the status of the specified axis of the mount.
 
@@ -1100,7 +1100,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             axis (int): The axis to query (0 or 1).
 
         Returns:
-            PlaneWaveDeviceInterfaceAxis: The status of the specified axis.
+            PlaneWaveMountDeviceInterfaceAxis: The status of the specified axis.
         """
         if self.state == BaseDeviceState.DISCONNECTED:
             return None
@@ -1114,7 +1114,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         # Inject the axis number into data to help model validator know which axis to extract
         data["axis_number"] = axis
 
-        return PlaneWaveDeviceInterfaceAxis.model_validate(data)
+        return PlaneWaveMountDeviceInterfaceAxis.model_validate(data)
 
     def enable_axis(self, axis: Literal[0, 1] = 0) -> None:
         """
