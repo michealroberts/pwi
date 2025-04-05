@@ -5,7 +5,7 @@
 
 # **************************************************************************************
 
-from .axis import PlaneWaveDeviceInterfaceAxis
+from .axis import PlaneWaveMountDeviceInterfaceAxis
 from .base import (
     BaseDeviceInterface,
     BaseDeviceParameters,
@@ -59,7 +59,7 @@ __all__: list[str] = [
     "BaseMountTrackingMode",
     "BaseMountTrackingState",
     "HorizontalCalibrationParameters",
-    "PlaneWaveDeviceInterfaceAxis",
+    "PlaneWaveMountDeviceInterfaceAxis",
     "PlaneWaveDeviceInterfaceOffsets",
     "PlaneWaveDeviceInterfaceSite",
     "PlaneWaveMountDeviceInterfaceStatus",

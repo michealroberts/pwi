@@ -8,12 +8,12 @@
 import unittest
 from datetime import datetime, timezone
 
-from pwi.axis import PlaneWaveDeviceInterfaceAxis
+from pwi.axis import PlaneWaveMountDeviceInterfaceAxis
 
 # **************************************************************************************
 
 
-class TestPlaneWaveDeviceInterfaceAxis(unittest.TestCase):
+class TestPlaneWaveMountDeviceInterfaceAxis(unittest.TestCase):
     def test_valid_input_axis_0(self):
         raw_json = {
             "axis_number": 0,
@@ -39,7 +39,7 @@ class TestPlaneWaveDeviceInterfaceAxis(unittest.TestCase):
             },
         }
 
-        status = PlaneWaveDeviceInterfaceAxis.model_validate(raw_json)
+        status = PlaneWaveMountDeviceInterfaceAxis.model_validate(raw_json)
 
         self.assertTrue(status.is_enabled)
         self.assertAlmostEqual(status.rms_error, 0.5, places=5)
@@ -84,7 +84,7 @@ class TestPlaneWaveDeviceInterfaceAxis(unittest.TestCase):
             },
         }
 
-        status = PlaneWaveDeviceInterfaceAxis.model_validate(raw_json)
+        status = PlaneWaveMountDeviceInterfaceAxis.model_validate(raw_json)
 
         self.assertTrue(status.is_enabled)
         self.assertAlmostEqual(status.rms_error, 0.5, places=5)
