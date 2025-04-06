@@ -36,7 +36,7 @@ from .offsets import PlaneWaveMountDeviceInterfaceOffsets
 from .response import (
     ResponsePlanTextParserToJSON as ResponseParser,
 )
-from .site import PlaneWaveDeviceInterfaceSite
+from .site import PlaneWaveMountDeviceInterfaceSite
 from .status import PlaneWaveMountDeviceInterfaceStatus
 from .units import convert_arcseconds_to_degrees
 from .version import PlaneWaveDeviceInterfaceVersion
@@ -400,12 +400,12 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         return PlaneWaveMountDeviceInterfaceStatus.model_validate(data)
 
-    def get_site(self) -> Optional[PlaneWaveDeviceInterfaceSite]:
+    def get_site(self) -> Optional[PlaneWaveMountDeviceInterfaceSite]:
         """
         Get the site information for the device.
 
         Returns:
-            PlaneWaveDeviceInterfaceSite: The site information
+            PlaneWaveMountDeviceInterfaceSite: The site information
 
         Raises:
             HTTPStatusError: If the site data is invalid or missing
@@ -419,7 +419,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         data = ResponseParser(response.read()).parse()
 
-        return PlaneWaveDeviceInterfaceSite.model_validate(data)
+        return PlaneWaveMountDeviceInterfaceSite.model_validate(data)
 
     def is_connected(self) -> bool:
         """
