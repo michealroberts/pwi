@@ -14,7 +14,7 @@ from .utils import parse_float_safely
 # **************************************************************************************
 
 
-class PlaneWaveDeviceInterfaceSite(BaseModel):
+class PlaneWaveMountDeviceInterfaceSite(BaseModel):
     # The site latitude (in degrees):
     latitude: Optional[float] = Field(
         None, alias="site.latitude_degs", description="The site latitude (in degrees)"
