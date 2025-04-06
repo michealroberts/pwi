@@ -7,7 +7,10 @@
 
 import unittest
 
-from pwi.status import PlaneWaveMountDeviceInterfaceStatus
+from pwi.status import (
+    PlaneWaveFocuserDeviceInterfaceStatus,
+    PlaneWaveMountDeviceInterfaceStatus,
+)
 
 # **************************************************************************************
 
@@ -87,6 +90,38 @@ class TestPlaneWaveMountDeviceInterfaceStatus(unittest.TestCase):
         self.assertIsNone(status.JD)
         self.assertIsNone(status.j2000_equatorial_coordinate)
         self.assertIsNone(status.horizontal_coordinate)
+
+
+# **************************************************************************************
+
+
+class TestPlaneWaveFocuserDeviceInterfaceStatus(unittest.TestCase):
+    def test_focuser_status_parsing(self):
+        raw_json = {
+            "mount": {},
+            "focuser": {
+                "is_connected": "true",
+                "is_enabled": "true",
+                "position": 100,
+                "is_moving": "false",
+            },
+            "rotator": {},
+        }
+        status = PlaneWaveFocuserDeviceInterfaceStatus.model_validate(raw_json)
+
+        self.assertTrue(status.is_connected)
+        self.assertTrue(status.is_enabled)
+        self.assertEqual(status.position, 100)
+        self.assertFalse(status.is_moving)
+
+    def test_focuser_status_missing_keys(self):
+        raw_json = {"focuser": {}}
+        status = PlaneWaveFocuserDeviceInterfaceStatus.model_validate(raw_json)
+
+        self.assertFalse(status.is_connected)
+        self.assertFalse(status.is_enabled)
+        self.assertIsNone(status.position)
+        self.assertFalse(status.is_moving)
 
 
 # **************************************************************************************

@@ -207,3 +207,46 @@ class PlaneWaveMountDeviceInterfaceStatus(BaseModel):
 
 
 # **************************************************************************************
+
+
+class PlaneWaveFocuserDeviceInterfaceStatus(BaseModel):
+    # Is the focuser currently connected?
+    is_connected: bool = Field(False, alias="focuser.is_connected")
+
+    # Is the focuser currently enabled?
+    is_enabled: bool = Field(False, alias="focuser.is_enabled")
+
+    # The current step position of the focuser:
+    position: Optional[int] = Field(None, alias="focuser.position")
+
+    # Is the focuser currently moving?
+    is_moving: bool = Field(False, alias="focuser.is_moving")
+
+    @model_validator(mode="before")
+    @classmethod
+    def flatten_and_merge_status(cls, data: Any):
+        if not isinstance(data, dict):
+            return data
+
+        focuser = data.get("focuser", {})
+
+        data["focuser.is_moving"] = focuser.get("is_moving")
+        data["focuser.is_connected"] = focuser.get("is_connected")
+        data["focuser.is_enabled"] = focuser.get("is_enabled")
+        data["focuser.position"] = focuser.get("position")
+
+        return data
+
+    @field_validator("is_moving", "is_connected", "is_enabled", mode="before")
+    @classmethod
+    def parse_boolean(cls, value: Any):
+        if isinstance(value, bool):
+            return value
+
+        if isinstance(value, str):
+            return value.lower() == "true"
+
+        return bool(value)
+
+
+# **************************************************************************************
