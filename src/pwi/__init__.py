@@ -11,6 +11,12 @@ from .base import (
     BaseDeviceParameters,
     BaseDeviceState,
 )
+from .base_focuser import (
+    BaseFocuserDeviceInterface,
+    BaseFocuserDeviceParameters,
+    BaseFocuserMode,
+    BaseFocuserMovingState,
+)
 from .base_mount import (
     BaseMountAlignmentMode,
     BaseMountCalibrationPoint,
@@ -51,6 +57,10 @@ __all__: list[str] = [
     "BaseDeviceInterface",
     "BaseDeviceParameters",
     "BaseDeviceState",
+    "BaseFocuserDeviceInterface",
+    "BaseFocuserDeviceParameters",
+    "BaseFocuserMode",
+    "BaseFocuserMovingState",
     "BaseMountAlignmentMode",
     "BaseMountCalibrationPoint",
     "BaseMountDeviceInterface",
