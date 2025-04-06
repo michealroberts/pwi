@@ -20,3 +20,15 @@ class BaseFocuserMode(Enum):
 
 
 # **************************************************************************************
+
+
+class BaseFocuserMovingState(Enum):
+    """
+    Enumeration of possible focuser moving states.
+    """
+
+    IDLE = "idle"
+    MOVING = "moving"
+
+
+# **************************************************************************************
