@@ -37,8 +37,11 @@ from .mount import (
     PlaneWaveMountDeviceTelemetry,
 )
 from .offsets import PlaneWaveMountDeviceInterfaceOffsets
-from .status import PlaneWaveMountDeviceInterfaceStatus
 from .site import PlaneWaveMountDeviceInterfaceSite
+from .status import (
+    PlaneWaveFocuserDeviceInterfaceStatus,
+    PlaneWaveMountDeviceInterfaceStatus,
+)
 
 # **************************************************************************************
 
@@ -69,6 +72,7 @@ __all__: list[str] = [
     "BaseMountTrackingMode",
     "BaseMountTrackingState",
     "HorizontalCalibrationParameters",
+    "PlaneWaveFocuserDeviceInterfaceStatus",
     "PlaneWaveMountDeviceInterfaceAxis",
     "PlaneWaveMountDeviceInterfaceOffsets",
     "PlaneWaveMountDeviceInterfaceSite",
