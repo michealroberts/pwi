@@ -31,6 +31,10 @@ from .calibration import (
     get_horizontal_calibration_coordinates,
 )
 from .client import PlaneWaveHTTPXClient
+from .focuser import (
+    PlaneWaveFocuserDeviceInterface,
+    PlaneWaveFocuserDeviceParameters,
+)
 from .mount import (
     PlaneWaveMountDeviceInterface,
     PlaneWaveMountDeviceParameters,
@@ -73,6 +77,8 @@ __all__: list[str] = [
     "BaseMountTrackingState",
     "HorizontalCalibrationParameters",
     "PlaneWaveFocuserDeviceInterfaceStatus",
+    "PlaneWaveFocuserDeviceInterface",
+    "PlaneWaveFocuserDeviceParameters",
     "PlaneWaveMountDeviceInterfaceAxis",
     "PlaneWaveMountDeviceInterfaceOffsets",
     "PlaneWaveMountDeviceInterfaceSite",
