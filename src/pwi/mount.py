@@ -243,6 +243,9 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         self._longitude = params.get("longitude", 0.0)
         self._elevation = params.get("elevation", 0.0)
 
+        # Set the identifier for the device:
+        self._id = id
+
         if not client:
             client = PlaneWaveHTTPXClient(host="localhost", port=8220)
 
