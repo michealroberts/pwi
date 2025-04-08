@@ -17,6 +17,7 @@ from celerity.coordinates import (
     HorizontalCoordinate,
 )
 from celerity.refraction import get_correction_to_horizontal_for_refraction
+from satelles.tle import TLE
 
 from .axis import PlaneWaveMountDeviceInterfaceAxis
 from .base import (
@@ -190,6 +191,9 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             "az": 0.0,
         }
     )
+
+    # The target Two-Line Element (TLE) for the mount:
+    _target_tle: Optional[TLE] = None
 
     # The home position of the mount:
     home: HorizontalCoordinate = HorizontalCoordinate(
@@ -1244,6 +1248,36 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         params = {"alt_degs": topocentric.get("alt"), "az_degs": topocentric.get("az")}
 
         response = self._client.get(url="/mount/goto_alt_az", params=params)
+
+        response.raise_for_status()
+
+        return True
+
+    def slew_to_and_follow_tle(self, tle: str) -> bool:
+        """
+        Slew the mount to the specified TLE.
+
+        Args:
+            tle (str): The target TLE.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return False
+
+        # Store the target horizontal coordinate for future reference whilst also performing
+        # some basic validation of the TLE:
+        self._target_tle = TLE(tle)
+
+        # Split the TLE into its three constituent lines:
+        parts = self._target_tle.serialize_to_parts()
+
+        # Check that we either have two or three lines in the TLE:
+        if len(parts) <= 1 or len(parts) > 3:
+            raise ValueError("Invalid TLE format")
+
+        # Setup the params with each constituent part of the TLE:
+        params = {"line_1": parts[0], "line_2": parts[1], "line_3": parts[2]}
+
+        response = self._client.get(url="/mount/follow_tle", params=params)
 
         response.raise_for_status()
 
