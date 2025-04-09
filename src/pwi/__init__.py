@@ -37,12 +37,12 @@ from .mount import (
     PlaneWaveMountDeviceTelemetry,
 )
 from .offsets import PlaneWaveMountDeviceInterfaceOffsets
-from .status import PlaneWaveMountDeviceInterfaceStatus
 from .site import PlaneWaveMountDeviceInterfaceSite
+from .status import PlaneWaveMountDeviceInterfaceStatus
 
 # **************************************************************************************
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 # **************************************************************************************
 
