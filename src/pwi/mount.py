@@ -1265,7 +1265,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         # Store the target horizontal coordinate for future reference whilst also performing
         # some basic validation of the TLE:
-        self._target_tle = TLE(tle)
+        self._target_tle = TLE(tle_string=tle)
 
         # Split the TLE into its three constituent lines:
         parts = self._target_tle.serialize_to_parts()

@@ -44,7 +44,9 @@ async def main() -> None:
         print("[Connected]:", mount.is_connected())
 
         tle = """
-
+        0 STARLINK-4393
+        1 53470U 22099F   22231.58334491 -.01192745  00000-0 -94278-2 0  9991
+        2 53470  97.6556 349.4288 0001544 105.8526 242.2112 15.74123135  1308
         """
 
         mount.slew_to_and_follow_tle(tle=tle)
