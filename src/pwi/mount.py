@@ -1059,8 +1059,13 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         return (
             (
                 abs(
-                    mount.horizontal_coordinate["az"]
-                    - self._target_horizontal_coordinate["az"]
+                    (
+                        mount.horizontal_coordinate["az"]
+                        - self._target_horizontal_coordinate["az"]
+                        + 180
+                    )
+                    % 360
+                    - 180
                 )
                 <= tolerance
                 and abs(
@@ -1072,8 +1077,13 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             if self.is_horizontal()
             else (
                 abs(
-                    mount.apparent_equatorial_coordinate["ra"]
-                    - self._target_equatorial_coordinate["ra"]
+                    (
+                        mount.apparent_equatorial_coordinate["ra"]
+                        - self._target_equatorial_coordinate["ra"]
+                        + 180
+                    )
+                    % 360
+                    - 180
                 )
                 <= tolerance
                 and abs(
