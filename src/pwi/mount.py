@@ -1270,8 +1270,6 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         # Split the TLE into its three constituent lines:
         parts = self._target_tle.serialize_to_parts()
 
-        print(parts)
-
         # Check that we either have two or three lines in the TLE:
         if len(parts) <= 1 or len(parts) > 3:
             raise ValueError("Invalid TLE format")
