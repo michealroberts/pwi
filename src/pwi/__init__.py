@@ -32,6 +32,8 @@ from .calibration import (
 )
 from .client import PlaneWaveHTTPXClient
 from .mount import (
+    EquatorialCoordinateAtTime,
+    HorizontalCoordinateAtTime,
     PlaneWaveMountDeviceInterface,
     PlaneWaveMountDeviceParameters,
     PlaneWaveMountDeviceTelemetry,
@@ -80,6 +82,8 @@ __all__: list[str] = [
     "BaseMountSlewingState",
     "BaseMountTrackingMode",
     "BaseMountTrackingState",
+    "EquatorialCoordinateAtTime",
+    "HorizontalCoordinateAtTime",
     "HorizontalCalibrationParameters",
     "PlaneWaveMountDeviceInterfaceAxis",
     "PlaneWaveMountDeviceInterfaceOffsets",
