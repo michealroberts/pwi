@@ -259,6 +259,7 @@ dependencies = [
     { name = "celerity" },
     { name = "httpx" },
     { name = "pydantic" },
+    { name = "usbx" },
 ]
 
 [package.dev-dependencies]
@@ -276,6 +277,7 @@ requires-dist = [
     { name = "celerity", specifier = ">=0.27.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "pydantic", specifier = ">=2.10.6" },
+    { name = "usbx", specifier = ">=0.8.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -425,6 +427,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/df/db/f35a00659bc03fec321ba8bce9420de607a1d37f8342eee1863174c69557/typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8", size = 85321 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/26/9f/ad63fc0248c5379346306f8668cda6e2e2e9c95e01216d2b8ffd9ff037d0/typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d", size = 37438 },
+]
+
+[[package]]
+name = "usbx"
+version = "0.8.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/a9/dd8432d5607b5a00a575b79ea30cf8008e6692d65c13d62f31a8141d95b7/usbx-0.8.1.tar.gz", hash = "sha256:0ab73ab91d5bdb0a0e44202b74091c811a5e19d857869354220cc2140b5dce3b", size = 48570 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b8/97/ef408b1b119ff2e31fe5640ea6220426bc7abe29ae64b3037f08c9df3de5/usbx-0.8.1-py3-none-any.whl", hash = "sha256:5a798f607955470bc0715c785cdbe26a3ecf6809f20b2184bdd2463d89bd2198", size = 57533 },
 ]
 
 [[package]]
