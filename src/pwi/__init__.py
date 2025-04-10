@@ -37,6 +37,7 @@ from .mount import (
     PlaneWaveMountDeviceTelemetry,
 )
 from .offsets import PlaneWaveMountDeviceInterfaceOffsets
+from .serial import is_device_connected_over_usb
 from .site import PlaneWaveMountDeviceInterfaceSite
 from .status import PlaneWaveMountDeviceInterfaceStatus
 
@@ -64,6 +65,7 @@ __all__: list[str] = [
     "VENDOR_ID",
     "PRODUCT_ID",
     "get_horizontal_calibration_coordinates",
+    "is_device_connected_over_usb",
     "BaseDeviceInterface",
     "BaseDeviceParameters",
     "BaseDeviceState",
