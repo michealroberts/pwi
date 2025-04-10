@@ -54,10 +54,15 @@ VENDOR_ID = "1cbe"
 
 # **************************************************************************************
 
+PRODUCT_ID = "0267"
+
+# **************************************************************************************
+
 __all__: list[str] = [
     "__license__",
     "__version__",
     "VENDOR_ID",
+    "PRODUCT_ID",
     "get_horizontal_calibration_coordinates",
     "BaseDeviceInterface",
     "BaseDeviceParameters",
