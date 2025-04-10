@@ -1167,7 +1167,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         if self.state == BaseDeviceState.DISCONNECTED:
             return None
 
-        response = self._client.get(url="/mount/offsets")
+        response = self._client.get(url="/status")
 
         response.raise_for_status()
 
