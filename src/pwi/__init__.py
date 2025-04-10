@@ -50,9 +50,14 @@ __license__ = "MIT"
 
 # **************************************************************************************
 
+VENDOR_ID = "1cbe"
+
+# **************************************************************************************
+
 __all__: list[str] = [
     "__license__",
     "__version__",
+    "VENDOR_ID",
     "get_horizontal_calibration_coordinates",
     "BaseDeviceInterface",
     "BaseDeviceParameters",
