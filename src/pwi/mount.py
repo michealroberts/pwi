@@ -11,12 +11,14 @@ from datetime import datetime, timezone
 from math import inf
 from time import sleep
 from typing import Dict, List, Literal, Optional, Tuple, TypedDict
+from warnings import warn
 
 from celerity.coordinates import (
     EquatorialCoordinate,
     HorizontalCoordinate,
 )
 from celerity.refraction import get_correction_to_horizontal_for_refraction
+from celerity.temporal import get_julian_date
 
 from .axis import PlaneWaveMountDeviceInterfaceAxis
 from .base import (
@@ -62,6 +64,13 @@ class EquatorialCoordinateAtTime(EquatorialCoordinate):
 
 class HorizontalCoordinateAtTime(HorizontalCoordinate):
     at: Optional[datetime]
+
+
+# **************************************************************************************
+
+
+class HorizontalCoordinateAtEpoch(HorizontalCoordinate):
+    JD: float
 
 
 # **************************************************************************************
@@ -206,6 +215,9 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             "alt": 15.0,
         }
     )
+
+    # We can construct a slew path as a continuous list of horizontal coordinates:
+    _target_horizontal_path: List[HorizontalCoordinateAtTime] = []
 
     # Does the mount automatically adjust for atmospheric refraction?
     _does_refraction: bool = True
@@ -1261,6 +1273,126 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         response.raise_for_status()
 
         return True
+
+    def add_horizontal_coordinate_to_path(
+        self, horizontal: HorizontalCoordinateAtTime
+    ) -> None:
+        """
+        Add a horizontal coordinate to the path.
+
+        Args:
+            horizontal (HorizontalCoordinateAtTime): The horizontal coordinate to add.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return
+
+        # Store the target horizontal coordinate for future reference:
+        self._target_horizontal_path.append(horizontal)
+
+        # Set the target to be the current horizontal coordinate:
+        self._target_horizontal_coordinate = horizontal
+
+    def clear_horizontal_coordinates_path(self) -> None:
+        """
+        Clear the path of horizontal coordinates.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return
+
+        # Clear the target horizontal coordinate path:
+        self._target_horizontal_path.clear()
+
+        # Set the target horizontal coordinate to the default value:
+        self._target_horizontal_coordinate = HorizontalCoordinate(
+            {
+                "alt": 0.0,
+                "az": 0.0,
+            }
+        )
+
+    async def slew_through_horizontal_coordinates_path(
+        self,
+    ) -> List[HorizontalCoordinateAtEpoch]:
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return []
+
+        if not self._target_horizontal_path:
+            raise RuntimeError(
+                "Please ensure you have added coordinates to the path before slewing"
+            )
+
+        # Create the new equatorial path store with the mount:
+        response = self._client.get(
+            url="/mount/custom_path/new",
+            params={"type": "altaz"},
+        )
+
+        response.raise_for_status()
+
+        # Get the current time in UTC:
+        now = datetime.now(tz=timezone.utc)
+
+        # Get the Julian date of the current time:
+        JD0 = get_julian_date(now)
+
+        horizontal_coordinates: List[HorizontalCoordinateAtEpoch] = []
+
+        # For all of the points in the path, add them to the path as waypoints:
+        for target in self._target_horizontal_path:
+            if not target["at"]:
+                continue
+
+            JD = get_julian_date(date=target["at"])
+
+            if JD < JD0:
+                warn(
+                    f"""
+                    The date of the point is in the past. 
+                    Please ensure the date is in the future. 
+                    The point {target} will be ignored.
+                    """,
+                )
+                continue
+
+            horizontal_coordinates.append(
+                HorizontalCoordinateAtEpoch(
+                    {
+                        "alt": target["alt"],
+                        "az": target["az"],
+                        "JD": JD,
+                    }
+                )
+            )
+
+        # Construct the path points to be added to the mount in the format that PWI4 requires:
+        paths = list(
+            map(
+                lambda coord: f"{coord['JD']:.10f},{coord['az']},{coord['alt']}",
+                horizontal_coordinates,
+            )
+        )
+
+        # Check that the paths are not empty, if they are raise an error:
+        if not paths:
+            raise RuntimeError("No valid future path points to slew through.")
+
+        # Add the path points to the mount:
+        response = self._client.post(
+            url="/mount/custom_path/add_point_list",
+            data={
+                "data": "\n".join(paths),
+            },
+        )
+
+        response.raise_for_status()
+
+        # Apply the path coordinates to the mount and slew:
+        response = self._client.get(url="/mount/custom_path/apply")
+
+        response.raise_for_status()
+
+        # Return the topocentric coordinates for the path:
+        return horizontal_coordinates
 
     def abort_slew(self) -> None:
         """
