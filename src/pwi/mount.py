@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from math import inf
 from time import sleep
 from typing import Dict, List, Literal, Optional, Tuple, TypedDict
+from urllib.parse import quote, urlencode
 from warnings import warn
 
 from celerity.coordinates import (
@@ -19,6 +20,7 @@ from celerity.coordinates import (
 )
 from celerity.refraction import get_correction_to_horizontal_for_refraction
 from celerity.temporal import get_julian_date
+from satelles.tle import TLE
 
 from .axis import PlaneWaveMountDeviceInterfaceAxis
 from .base import (
@@ -199,6 +201,9 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
             "az": 0.0,
         }
     )
+
+    # The target Two-Line Element (TLE) for the mount:
+    _target_tle: Optional[TLE] = None
 
     # The home position of the mount:
     home: HorizontalCoordinate = HorizontalCoordinate(
@@ -1393,6 +1398,43 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         # Return the topocentric coordinates for the path:
         return horizontal_coordinates
+
+    def slew_to_and_follow_tle(self, tle: str) -> bool:
+        """
+        Slew the mount to the specified TLE.
+
+        Args:
+            tle (str): The target TLE.
+        """
+        if self.state == BaseDeviceState.DISCONNECTED:
+            return False
+
+        # Store the target horizontal coordinate for future reference whilst also performing
+        # some basic validation of the TLE:
+        self._target_tle = TLE(tle_string=tle)
+
+        # Split the TLE into its three constituent lines:
+        parts = self._target_tle.serialize_to_parts()
+
+        # Check that we either have two or three lines in the TLE:
+        if len(parts) <= 1 or len(parts) > 3:
+            raise ValueError("Invalid TLE format")
+
+        # Setup the params with each constituent part of the TLE using the encoding the
+        # server expects:
+        endpoint = f"follow_tle?{
+            urlencode(
+                {'line1': parts[0], 'line2': parts[1], 'line3': parts[2]},
+                quote_via=quote,
+                safe='',
+            )
+        }"
+
+        response = self._client.get(f"{self._client.base_url}/mount/{endpoint}")
+
+        response.raise_for_status()
+
+        return True
 
     def abort_slew(self) -> None:
         """

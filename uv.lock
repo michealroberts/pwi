@@ -26,11 +26,11 @@ wheels = [
 
 [[package]]
 name = "celerity"
-version = "0.27.0"
+version = "0.28.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/3c/23/03f8cbe894e2bd383c91930293fa128a128f73a57406c40b21038c5933e0/celerity-0.27.0.tar.gz", hash = "sha256:72a3341ddb6e7ba7610c6b2f52a9285cc399937d457737ae9dbf7469e2bafd1e", size = 21603 }
+sdist = { url = "https://files.pythonhosted.org/packages/9e/fb/3552045e60f7500cc01c39531ce6ca122601887ac68986f080d969db3602/celerity-0.28.0.tar.gz", hash = "sha256:3a5f0b8bcd0447e4492cd8f60b1338b3ea3d1164de7ffb5ead09f091fbadf1d2", size = 21619 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1c/02/0bbb0ce4a81258fb32b3b769f322cce09d424967ef60f628538c0b2fae8b/celerity-0.27.0-py3-none-any.whl", hash = "sha256:bcb117af53d68fabdc6be5060e46dbafafb1cf964fc36dfd8dc3bc0fc7417d7a", size = 29194 },
+    { url = "https://files.pythonhosted.org/packages/04/56/54b1953334f087534111a11613f242b1ee5161b000f9cf2a79d1e8591a81/celerity-0.28.0-py3-none-any.whl", hash = "sha256:1005b1c0753d9af8636d297103d0960557b6abdb3c1240f7e8080a77670288c8", size = 29211 },
 ]
 
 [[package]]
@@ -281,6 +281,7 @@ dependencies = [
     { name = "celerity" },
     { name = "httpx" },
     { name = "pydantic" },
+    { name = "satelles" },
     { name = "usbx" },
 ]
 
@@ -300,6 +301,7 @@ requires-dist = [
     { name = "celerity", specifier = ">=0.27.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "pydantic", specifier = ">=2.10.6" },
+    { name = "satelles", specifier = ">=0.7.0" },
     { name = "usbx", specifier = ">=0.8.1" },
 ]
 
@@ -433,6 +435,19 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/42/55/e6c90f13880aeef327746052907e7e930681f26a164fe130ddac28b08269/ruff-0.9.9-py3-none-win32.whl", hash = "sha256:6b4c376d929c25ecd6d87e182a230fa4377b8e5125a4ff52d506ee8c087153c1", size = 10227912 },
     { url = "https://files.pythonhosted.org/packages/35/b2/da925693cb82a1208aa34966c0f36cb222baca94e729dd22a587bc22d0f3/ruff-0.9.9-py3-none-win_amd64.whl", hash = "sha256:837982ea24091d4c1700ddb2f63b7070e5baec508e43b01de013dc7eff974ff1", size = 11355632 },
     { url = "https://files.pythonhosted.org/packages/31/d8/de873d1c1b020d668d8ec9855d390764cb90cf8f6486c0983da52be8b7b7/ruff-0.9.9-py3-none-win_arm64.whl", hash = "sha256:3ac78f127517209fe6d96ab00f3ba97cafe38718b23b1db3e96d8b2d39e37ddf", size = 10435860 },
+]
+
+[[package]]
+name = "satelles"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "celerity" },
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/95/7d/b85d4e3f9eaa1adc003bc22836ec38458a7a71e646f3bcf83ee36a6d2cdd/satelles-0.7.0.tar.gz", hash = "sha256:6e2b7386b724fc6c0a08c1d98ed0b8cb24f003cb0561abfaf70d80fbab2938c0", size = 49376 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/06/37/366dc14747942d78e4ea39ced05d88a033bd8653d7e8f30e84916a470ad5/satelles-0.7.0-py3-none-any.whl", hash = "sha256:9fb58cc0526d011327510a065b185a9bcd21aab566b207a32d3a1f10b320fb45", size = 24235 },
 ]
 
 [[package]]
