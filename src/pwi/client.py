@@ -17,5 +17,8 @@ class PlaneWaveHTTPXClient:
             timeout=Timeout(timeout, connect=timeout, read=timeout, write=timeout),
         )
 
+    def close(self) -> None:
+        self._client.close()
+
 
 # **************************************************************************************
