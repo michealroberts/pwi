@@ -245,6 +245,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
                 or device ID (did).
         """
         super().__init__(params)
+
         # The name of the mount (default: "PlaneWave Mount"):
         self._name = params.get("name", "PlaneWave Mount")
 
@@ -252,6 +253,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         self._description = params.get(
             "description", "PlaneWave Mount Interface (HTTP)"
         )
+
         # The alignment mode of the mount (default: ALT_AZ):
         self._alignment_mode = params.get("alignment", BaseMountAlignmentMode.ALT_AZ)
 
@@ -612,7 +614,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         while not self.is_home():
             # Sleep for 100 milliseconds:
-            sleep(0.1)
+            await asyncio.sleep(0.1)
 
         self.abort_slew()
 
@@ -1231,7 +1233,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         self._slewing_state = BaseMountSlewingState.SETTLING
 
-        sleep(self.get_slew_settle_time())
+        await asyncio.sleep(self.get_slew_settle_time())
 
         self._slewing_state = BaseMountSlewingState.IDLE
 
