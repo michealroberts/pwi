@@ -266,6 +266,7 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
         if not client:
             client = PlaneWaveHTTPXClient(host="localhost", port=8220)
 
+        # Set the HTTP client for the mount:
         self._client = client._client
 
     @property
@@ -397,7 +398,12 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         response.raise_for_status()
 
-        self.state = BaseDeviceState.DISCONNECTED
+        # Attempt to close off the HTTP client connection (transport and proxies):
+        try:
+            self._client.close()
+        finally:
+            # Set the device state to DISCONNECTED:
+            self.state = BaseDeviceState.DISCONNECTED
 
     def get_status(self) -> Optional[PlaneWaveMountDeviceInterfaceStatus]:
         """
