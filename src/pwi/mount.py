@@ -79,11 +79,11 @@ class HorizontalCoordinateAtEpoch(HorizontalCoordinate):
 
 
 class PlaneWaveMountDeviceAxisTelemetry(TypedDict):
-    # The root mean square (RMS) error (in arcseconds):
+    # The root mean square (RMS) error (in degrees):
     rms_error: Optional[float]
     # The distance to the target (in degrees):
     distance_to_target: Optional[float]
-    # The servo error (in arcseconds):
+    # The servo error (in degrees):
     servo_error: Optional[float]
     # The minimum mechanical position (in degrees):
     minimum_mechanical_position: Optional[float]
