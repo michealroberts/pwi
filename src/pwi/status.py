@@ -5,7 +5,7 @@
 
 # **************************************************************************************
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from celerity.common import (
@@ -145,10 +145,17 @@ class PlaneWaveMountDeviceInterfaceStatus(BaseModel):
         if value is None:
             return None
 
+        # Coerce the str to datetime or accept datetime as-is:
         try:
-            return datetime.fromisoformat(value)
-        except ValueError:
-            return None
+            dt = value if isinstance(value, datetime) else datetime.fromisoformat(value)
+        except (TypeError, ValueError):
+            raise ValueError(f"Invalid ISO datetime for utc field: {value!r}")
+
+        # If the datetime is naïve, treat as UTC; then normalize any tz → UTC:
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+
+        return dt.astimezone(timezone.utc)
 
     @field_validator("is_slewing", "is_connected", "is_tracking", mode="before")
     @classmethod
