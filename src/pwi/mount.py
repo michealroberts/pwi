@@ -1430,13 +1430,18 @@ class PlaneWaveMountDeviceInterface(BaseMountDeviceInterface):
 
         # Setup the params with each constituent part of the TLE using the encoding the
         # server expects:
-        endpoint = f"follow_tle?{
-            urlencode(
-                {'line1': parts[0], 'line2': parts[1], 'line3': parts[2]},
-                quote_via=quote,
-                safe='',
-            )
-        }"
+        query = urlencode(
+            {
+                "line1": parts[0],
+                "line2": parts[1],
+                "line3": parts[2],
+            },
+            quote_via=quote,
+            safe="",
+        )
+
+        # Prepare the follow TLE endpoint with the line parts as query params:
+        endpoint = f"follow_tle?{query}"
 
         response = self._client.get(f"{self._client.base_url}/mount/{endpoint}")
 
