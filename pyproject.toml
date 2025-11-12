@@ -22,17 +22,20 @@ classifiers = [
     "Operating System :: OS Independent",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
-    "celerity>=0.27.0",
+    "celerity>=0.39.0",
     "httpx>=0.28.1",
-    "pydantic>=2.10.6",
+    "pydantic>=2.12.4",
     "usbx>=0.8.1",
-    "satelles>=0.7.0",
+    "satelles>=0.20.0",
+    "typing-extensions>=4.15.0",
 ]
 
 [project.urls]

@@ -9,14 +9,29 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from celerity.common import (
-    EquatorialCoordinate,
-    HorizontalCoordinate,
     is_equatorial_coordinate,
     is_horizontal_coordinate,
 )
 from pydantic import BaseModel, Field, field_validator, model_validator
+from typing_extensions import TypedDict
 
 from .utils import parse_float_safely
+
+# **************************************************************************************
+
+
+class EquatorialCoordinate(TypedDict):
+    ra: float
+    dec: float
+
+
+# **************************************************************************************
+
+
+class HorizontalCoordinate(TypedDict):
+    alt: float
+    az: float
+
 
 # **************************************************************************************
 
